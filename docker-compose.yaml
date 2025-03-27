@@ -4,30 +4,43 @@ networks:
 
 #Database containers
 services:
-  # mysql:
-  #   container_name: mysql-server
-  #   image: mysql
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=Test1234+
-  #     - MYSQL_DATABASE=my_test_db
-  #     - MYSQL_USER=Thierry
-  #     - MYSQL_PASSWORD=Test1234=
-  #   networks:
-  #     - read-network
+  mssql-read:
+    container_name: mssql-read
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Test1234=
+      - MSSQL_PID=Developer
+      - MSSQL_TCP_PORT=1433
+    ports:
+      - 11433:1433
+    networks:
+      - write-network
 
-  # mssql:
-  #   container_name: mssql-server
-  #   image: mcr.microsoft.com/mssql/server:2022-latest
-  #   environment:
-  #     - ACCEPT_EULA=Y
-  #     - MSSQL_SA_PASSWORD=Test1234=
-  #     - MSSQL_PID=Developer
-  #     - MSSQL_TCP_PORT=1433
-  #     - MSSQL_LCID=1036   #French
-  #   networks:
-  #     - write-network
+  mssql-write:
+    container_name: mssql-write
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Test1234=
+      - MSSQL_PID=Developer
+      - MSSQL_TCP_PORT=1433
+    ports:
+      - 21433:1433
+    networks:
+      - write-network
 
 #Api Containers
+  read-api:
+    container_name: read-api
+    build: ./ReadApi
+    ports:
+      - 18080:8080
+    volumes:
+      - shared:/shared
+    networks:
+      - read-network
+
   write-api:
     container_name: write-api
     build: ./WriteApi
@@ -35,14 +48,8 @@ services:
       - shared:/shared
     networks:
       - write-network
-  
-  read-api:
-    container_name: read-api
-    build: ./ReadApi
-    volumes:
-      - shared:/shared
-    networks:
-      - read-network
+    ports:
+      - 28080:8080
 
 volumes:
   shared:

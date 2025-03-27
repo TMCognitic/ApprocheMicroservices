@@ -1,0 +1,6 @@
+CREATE TABLE Message
+(
+    [Uid] UNIQUEIDENTIFIER NOT NULL,
+    [Message] NVARCHAR(1000) NOT NULL,
+    CONSTRAINT PK_Message PRIMARY KEY ([Uid])
+)
