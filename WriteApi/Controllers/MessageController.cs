@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using IO = System.IO;
 
 namespace WriteApi.Controllers
 {
@@ -16,7 +17,17 @@ namespace WriteApi.Controllers
         [HttpPost]
         public IActionResult Post()
         {
-            return Ok();
+            try
+            {
+                IO.File.WriteAllText($"/app/shared/{Guid.NewGuid()}.json", "Test");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { e.Message });
+            }
+
+            
         }
     }
 }

@@ -6,6 +6,9 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 
+RUN mkdir ./shared
+RUN chmod -R 777 ./shared 
+
 
 # Cette phase est utilisée pour générer le projet de service
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build

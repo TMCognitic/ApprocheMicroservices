@@ -37,7 +37,7 @@ services:
     ports:
       - 18080:8080
     volumes:
-      - shared:/shared
+      - shared:/app/shared
     networks:
       - read-network
 
@@ -45,7 +45,7 @@ services:
     container_name: write-api
     build: ./WriteApi
     volumes:
-      - shared:/shared
+      - shared:/app/shared
     networks:
       - write-network
     ports:
