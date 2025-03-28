@@ -6,7 +6,7 @@ networks:
 services:
   mssql-read:
     container_name: mssql-read
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    build: ./MsSqlRead
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=Test1234=
@@ -15,11 +15,11 @@ services:
     ports:
       - 11433:1433
     networks:
-      - write-network
+      - read-network
 
   mssql-write:
     container_name: mssql-write
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    build: ./MsSqlWrite
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=Test1234=
@@ -40,6 +40,8 @@ services:
       - shared:/app/shared
     networks:
       - read-network
+    depends_on:
+      - mssql-read
 
   write-api:
     container_name: write-api
@@ -50,6 +52,8 @@ services:
       - write-network
     ports:
       - 28080:8080
+    depends_on:
+      - mssql-write
 
 volumes:
   shared:

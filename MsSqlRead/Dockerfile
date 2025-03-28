@@ -4,7 +4,4 @@ WORKDIR /app
 
 COPY ./scripts .
 
-RUN chmod +x ./entrypoint.sh
-RUN chmod +x ./configure-db.sh
-
 ENTRYPOINT [ "./entrypoint.sh" ]

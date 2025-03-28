@@ -1,6 +1,14 @@
+CREATE DATABASE ReadDb;
+GO
+
+USE ReadDb;
+GO
+
 CREATE TABLE Message
 (
     [Uid] UNIQUEIDENTIFIER NOT NULL,
-    [Message] NVARCHAR(1000) NOT NULL,
-    CONSTRAINT PK_Message PRIMARY KEY ([Uid])
+    [Date] DATE NOT NULL,
+    [Nom] NVARCHAR(50) NOT NULL,
+    [Content] NVARCHAR(1000) NOT NULL,
+    CONSTRAINT PK_Message PRIMARY KEY ([Uid], [Date])
 )
