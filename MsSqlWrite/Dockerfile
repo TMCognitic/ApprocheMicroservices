@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY ./scripts .
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+CMD [ "bash", "./entrypoint.sh" ]
