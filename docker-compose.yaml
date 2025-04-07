@@ -4,6 +4,15 @@ networks:
 
 #Database containers
 services:
+  rabbitmq:
+    container_name: rabbitmq-management
+    image: rabbitmq:management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=Thierry
+      - RABBITMQ_DEFAULT_PASS=Test1234=
   mssql-read:
     container_name: mssql-read
     build: ./MsSqlRead
@@ -16,6 +25,8 @@ services:
       - 11433:1433
     networks:
       - read-network
+    depends_on:
+      - rabbitmq
 
   mssql-write:
     container_name: mssql-write
@@ -29,6 +40,8 @@ services:
       - 21433:1433
     networks:
       - write-network
+    depends_on:
+      - rabbitmq
 
 #Api Containers
   read-api:
